@@ -107,6 +107,8 @@ const plans = [
 ];
 
 function Landing() {
+  const { session } = useAuth();
+  const navigate = useNavigate();
   const [origin, setOrigin] = useState("TPE");
   const [destination, setDestination] = useState("");
   const [target, setTarget] = useState("");
@@ -154,9 +156,22 @@ function Landing() {
             方案
           </a>
         </nav>
-        <Button variant="hero" size="sm" asChild>
-          <a href="#watchlist">建立降價通知</a>
-        </Button>
+        <div className="flex items-center gap-2">
+          {session ? (
+            <Button variant="hero" size="sm" asChild>
+              <Link to="/dashboard">我的追蹤清單</Link>
+            </Button>
+          ) : (
+            <>
+              <Button variant="ghost" size="sm" asChild>
+                <Link to="/auth">登入</Link>
+              </Button>
+              <Button variant="hero" size="sm" asChild>
+                <Link to="/auth">免費註冊</Link>
+              </Button>
+            </>
+          )}
+        </div>
       </header>
 
       <main>
