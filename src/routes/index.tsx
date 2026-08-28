@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useAuth } from "@/hooks/useAuth";
 import { useMemo, useState } from "react";
 import {
   ArrowRight,
@@ -123,20 +124,12 @@ function Landing() {
       toast.error("請填寫目的地、目標價與 Email");
       return;
     }
-    const t = Number(target);
-    setWatches((prev) => [
-      {
-        id: Date.now(),
-        route: `${origin.toUpperCase()} → ${destination.toUpperCase()}`,
-        target: t,
-        current: Math.round(t * 1.12),
-        prev: Math.round(t * 1.35),
-      },
-      ...prev,
-    ]);
-    setDestination("");
-    setTarget("");
-    toast.success("已建立追蹤，降價時我們會通知你");
+    if (!session) {
+      toast.info("請先登入或註冊，就能把追蹤存進你的帳號");
+      navigate({ to: "/auth" });
+      return;
+    }
+    navigate({ to: "/dashboard" });
   }
 
   return (
