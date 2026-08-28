@@ -14,7 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      flight_watches: {
+        Row: {
+          created_at: string
+          current_price: number | null
+          destination: string
+          id: string
+          label: string | null
+          notify_enabled: boolean
+          origin: string
+          previous_price: number | null
+          target_price: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_price?: number | null
+          destination: string
+          id?: string
+          label?: string | null
+          notify_enabled?: boolean
+          origin: string
+          previous_price?: number | null
+          target_price: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_price?: number | null
+          destination?: string
+          id?: string
+          label?: string | null
+          notify_enabled?: boolean
+          origin?: string
+          previous_price?: number | null
+          target_price?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          id: string
+          notify_email: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          id: string
+          notify_email?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          notify_email?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
