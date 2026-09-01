@@ -12,4 +12,11 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // Pin the deploy target to Vercel (Node.js Serverless Functions) instead of the
+  // package's default `cloudflare-module` preset. Outside a Lovable build this wins
+  // over Nitro's own auto-detection, so `vercel build` always produces Vercel's
+  // Build Output API v3 format regardless of env vars set at build time.
+  nitro: {
+    preset: "vercel",
+  },
 });

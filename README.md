@@ -22,3 +22,31 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+## Deploying to Vercel
+
+This project builds to Vercel's Build Output API v3 (a Nitro `vercel` preset,
+Node.js serverless function) via a plain `npm run build` — no `vercel build`
+step needed. When importing the repo in Vercel:
+
+- Framework Preset: leave as detected or "Other" — `vercel.json` pins
+  `framework: null` so Vercel trusts the build output directly instead of
+  guessing from `vite.config.ts`.
+- Build Command: `npm run build` (from `vercel.json`).
+- Environment Variables — set these in the Vercel project settings (they are
+  **not** committed to this repo):
+  - `SUPABASE_SERVICE_ROLE_KEY`
+  - `LOVABLE_CRON_SECRET` / `LOVABLE_CRON_SECRET_PREVIOUS`
+  - The public `VITE_SUPABASE_*` / `SUPABASE_*` values already in `.env` are
+    committed since they are Supabase's publishable (anon) keys, not secrets.
+
+To self-deploy elsewhere, override the preset in `vite.config.ts`
+(`nitro.preset`), e.g. back to `cloudflare-module` for Cloudflare.
+
+**Two lockfiles, on purpose:** `bun.lock` resolves several `@supabase/*` /
+`@lovable.dev/*` packages against Lovable's private npm proxy
+(`europe-west1-npm.pkg.dev`), which only the Lovable sandbox can reach — keep
+it for the Lovable editor's own build. `package-lock.json` resolves the same
+dependency tree against the public npm registry and is what `vercel.json`'s
+`npm install` uses, so Vercel (or any external CI) isn't blocked by that
+private registry.
